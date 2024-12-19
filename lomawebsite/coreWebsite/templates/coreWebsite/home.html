@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <!-- Movie Poster -->
+    {% if movie_poster %}
+        <img src="{{ movie_poster.poster.url }}" alt="{{ movie_poster.title }}" class="img-fluid rounded mb-3">
+    {% else %}
+        <p>No movie poster available.</p>
+    {% endif %}
+
+    <!-- Movie Information -->
+    <h2>{{ showtimes.title }}</h2>
+    <p>{{ showtimes.dates }}</p>
+    <ul class="list-unstyled">
+        {% for showtime in showtimes.times %}
+            <li>{{ showtime.day }}: {{ showtime.time }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Promotion -->
+    <div class="alert alert-success mt-4" role="alert">
+        {{ promotion }}
+    </div>
+</div>
+{% endblock %}

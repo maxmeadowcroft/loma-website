@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Ticket Prices{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4">Ticket Prices</h1>
+
+    {% for category, showtimes in grouped_ticket_prices.items %}
+    <section class="mt-4">
+        <h2>{{ category|title }}</h2>
+        {% for showtime, prices in showtimes.items %}
+        <h3>{{ showtime|title }}</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Age Group</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ticket in prices %}
+                <tr>
+                    <td>{{ ticket.age_group }}</td>
+                    <td>${{ ticket.price|floatformat:2 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endfor %}
+    </section>
+    {% endfor %}
+
+    <div class="text-center mt-4">
+        <a href="#" class="btn btn-primary">Buy Tickets</a>
+    </div>
+</div>
+{% endblock %}

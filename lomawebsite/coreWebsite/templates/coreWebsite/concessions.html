@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Concessions{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4">Concessions</h1>
+
+    {% for category, items in grouped_concessions.items %}
+    <section class="mt-4">
+        <h2>{{ category|title }}</h2>
+        <ul class="list-unstyled">
+            {% for item in items %}
+            <li class="mb-2">
+                <strong>{{ item.name }}</strong>
+                {% if item.price %}- ${{ item.price|floatformat:2 }}{% endif %}
+                {% if item.description %}<br>{{ item.description }}{% endif %}
+                {% if item.extra_info %}<small class="text-muted">{{ item.extra_info }}</small>{% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endfor %}
+
+</div>
+{% endblock %}
