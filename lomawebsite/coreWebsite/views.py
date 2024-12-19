@@ -1,5 +1,5 @@
 from django.views.generic import TemplateView
-from content.models import MoviePoster, ConcessionItem, TicketPrice
+from content.models import MoviePoster, ConcessionItem, TicketPrice, Movie
 from collections import defaultdict
 
 
@@ -8,21 +8,30 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Fetch the latest movie poster
-        context['movie_poster'] = MoviePoster.objects.last()
 
-        # Add showtimes and promotions
-        context['showtimes'] = {
-            'title': 'Mufasa',
-            'dates': '12/19 - 12/22',
-            'times': [
-                {'day': 'Thurs', 'time': '6pm'},
-                {'day': 'Fri', 'time': '6pm'},
-                {'day': 'Sat', 'time': '2pm / 6pm'},
-                {'day': 'Sun', 'time': '2pm / 6pm'},
-            ],
+        # Fetch the latest movie details dynamically
+        latest_movie = Movie.objects.last()
+        context['movie'] = {
+            'title': latest_movie.title,
+            'description': latest_movie.description,
+            'poster': latest_movie.poster,
+            'dates': latest_movie.dates,
+            'showtimes': latest_movie.showtimes.splitlines()
         }
+
+        # Add a promotion if applicable
         context['promotion'] = 'GIVEAWAY'
+
+        # Fetch all ticket prices dynamically
+        ticket_prices = TicketPrice.objects.all()
+        context['ticket_prices'] = [
+            {
+                'age_group': price.age_group,
+                'evening_price': price.evening_price,
+                'matinee_price': price.matinee_price
+            }
+            for price in ticket_prices
+        ]
 
         return context
 

@@ -55,3 +55,12 @@ class TicketPrice(models.Model):
 
     def __str__(self):
         return f"{self.category} - {self.showtime} - {self.age_group}"
+
+
+class Movie(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    poster = models.ImageField(upload_to='posters/')
+    dates = models.CharField(max_length=100)
+    showtimes = models.TextField()
+
