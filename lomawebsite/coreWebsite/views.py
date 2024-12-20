@@ -1,6 +1,10 @@
 from django.views.generic import TemplateView
-from content.models import MoviePoster, ConcessionItem, TicketPrice, Movie
+from content.models import ConcessionItem, TicketPrice, Movie, BackgroundImage
 from collections import defaultdict
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from .forms import ContactForm
 
 
 class HomeView(TemplateView):
@@ -9,31 +13,48 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Fetch the latest movie details dynamically
+        # Existing context setup
+        background = BackgroundImage.objects.last()
+        context['background_image'] = background.image.url if background else None
+
         latest_movie = Movie.objects.last()
         context['movie'] = {
             'title': latest_movie.title,
             'description': latest_movie.description,
             'poster': latest_movie.poster,
             'dates': latest_movie.dates,
-            'showtimes': latest_movie.showtimes.splitlines()
+            'showtimes': latest_movie.showtimes.splitlines(),
         }
 
-        # Add a promotion if applicable
-        context['promotion'] = 'GIVEAWAY'
-
-        # Fetch all ticket prices dynamically
         ticket_prices = TicketPrice.objects.all()
-        context['ticket_prices'] = [
-            {
+        grouped_prices = {}
+        for price in ticket_prices:
+            category = price.category
+            showtime = price.showtime
+            if category not in grouped_prices:
+                grouped_prices[category] = {}
+            if showtime not in grouped_prices[category]:
+                grouped_prices[category][showtime] = []
+            grouped_prices[category][showtime].append({
                 'age_group': price.age_group,
-                'evening_price': price.evening_price,
-                'matinee_price': price.matinee_price
-            }
-            for price in ticket_prices
-        ]
+                'price': price.price,
+            })
+        context['ticket_prices'] = grouped_prices
+
+        # Add contact form
+        context['form'] = ContactForm()
 
         return context
+
+    def post(self, request, *args, **kwargs):
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            # Process form (e.g., send an email or save data)
+            print("Contact Form Submitted:", form.cleaned_data)
+            return HttpResponseRedirect(reverse('home'))
+        context = self.get_context_data()
+        context['form'] = form
+        return render(request, self.template_name, context)
 
 
 class AboutView(TemplateView):
@@ -87,3 +108,18 @@ class TicketPricesView(TemplateView):
 
 class ContactView(TemplateView):
     template_name = 'coreWebsite/contact.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = ContactForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            # Process form (e.g., send an email or save data)
+            print("Contact Form Submitted:", form.cleaned_data)
+            return HttpResponseRedirect(reverse('contact'))
+        context = self.get_context_data()
+        context['form'] = form
+        return render(request, self.template_name, context)

@@ -1,18 +1,23 @@
 {% extends "base.html" %}
-
+{% load static %}
+{% load crispy_forms_tags %}
 {% block title %}The Loma Theater{% endblock %}
 
 {% block content %}
 <div class="container-fluid p-0">
     <!-- Hero Section -->
-    <div class="hero-section text-center text-white py-5" style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('/static/images/hero-background.jpg') no-repeat center/cover; min-height: 75vh;">
-        <h1 class="display-1 fw-bold" style="font-family: 'Playfair Display', serif;">The Loma Theater</h1>
-        <p class="lead mb-4" style="font-size: 1.5rem;">Where timeless memories meet the magic of the big screen.</p>
-        <div class="d-flex justify-content-center">
-            <a href="#now-showing" class="btn btn-brand btn-lg me-3">View Showtimes</a>
-            <a href="/about/" class="btn btn-outline-light btn-lg">Learn About Us</a>
+    <div class="hero-section text-center text-white py-5"
+        style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('{{ background_image }}') no-repeat center/cover; min-height: 75vh;">
+        <div class="container">
+            <h1 class="display-1 fw-bold" style="font-family: 'Playfair Display', serif;">The Loma Theater</h1>
+            <p class="lead mb-4" style="font-size: 1.5rem;">Where timeless memories meet the magic of the big screen.</p>
+            <div class="d-grid gap-3 d-sm-flex justify-content-center">
+                <a href="#now-showing" class="btn btn-brand btn-lg">View Showtimes</a>
+                <a href="{% url 'about' %}" class="btn btn-outline-light btn-lg">Learn About Us</a>
+            </div>
         </div>
     </div>
+
 
     <!-- Now Showing Section -->
     <section id="now-showing" class="py-5 bg-light">
@@ -20,7 +25,6 @@
             <h2 class="text-center mb-5 fw-bold display-3" style="color: #8a1538;">Now Showing</h2>
             <div class="row align-items-center">
                 <div class="col-lg-7 mb-4 text-center">
-                    <!-- Set poster to a standard size -->
                     <img src="{{ movie.poster.url }}" class="rounded shadow-lg" alt="{{ movie.title }}" style="width: 100%; max-width: 500px; height: auto;">
                 </div>
                 <div class="col-lg-5 mb-4">
@@ -39,14 +43,19 @@
         </div>
     </section>
 
+
     <!-- About Section -->
     <section id="about" class="py-5" style="background: linear-gradient(to right, #fff, #f8f9fa);">
         <div class="container">
             <h2 class="text-center mb-5 fw-bold display-3" style="color: #8a1538;">About Us</h2>
             <div class="row align-items-center">
+                <!-- Image Wrapper -->
                 <div class="col-md-6 mb-4">
-                    <img src="/static/images/about-section.jpg" class="img-fluid rounded shadow-lg" alt="About The Loma Theater">
+                    <div style="width: 100%; max-width: 500px; height: 300px; overflow: hidden; margin: 0 auto; border-radius: 15px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);">
+                        <img src="{% static 'loma.jpg' %}" alt="Loma Theater" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                    </div>
                 </div>
+                <!-- Text Content -->
                 <div class="col-md-6 mb-4">
                     <p class="lead">Since 1937, The Loma Theater has been an iconic part of Socorro’s history. From our humble beginnings to the modern renovations in 2018, we’ve been dedicated to creating unforgettable movie experiences for our community.</p>
                     <p class="lead">Discover our rich history and how we’ve evolved over the decades.</p>
@@ -66,43 +75,87 @@
                     <p class="lead">Indulge in our combos for a complete movie experience. Don’t miss out on our crowd favorites!</p>
                     <a href="/concessions/" class="btn btn-brand btn-lg mt-3">View Menu</a>
                 </div>
-                <div class="col-md-6 mb-4">
-                    <img src="/static/images/concessions-section.jpg" class="img-fluid rounded shadow-lg" alt="Concessions">
+                <div class="col-md-6 mb-4 text-center">
+                    <div style="width: 100%; max-width: 500px; height: 300px; overflow: hidden; margin: 0 auto; border-radius: 15px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);">
+                        <img src="{% static 'concessions.jpg' %}" alt="Concessions" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Ticket Prices Section -->
-    <section id="ticket-prices" class="py-5" style="background: linear-gradient(to right, #f8f9fa, #fff);">
+   <section id="ticket-prices" class="py-5">
         <div class="container">
             <h2 class="text-center mb-5 fw-bold display-3" style="color: #8a1538;">Ticket Prices</h2>
-            <div class="row text-center">
-                {% for price in ticket_prices %}
-                <div class="col-md-3 mb-4">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">{{ price.age_group }}</h5>
-                            <p class="card-text">Evening: ${{ price.evening_price }}</p>
-                            <p class="card-text">Matinee: ${{ price.matinee_price }}</p>
-                        </div>
+
+            {% for category, showtimes in ticket_prices.items %}
+            <div class="mb-5">
+                <h3 class="text-center fw-bold display-5" style="color: #8a1538;">{{ category|title }}</h3>
+
+                {% for showtime, prices in showtimes.items %}
+                <div class="mb-3">
+                    <h4 class="text-center fw-bold" style="color: #b02045;">{{ showtime|title }}</h4>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Age Group</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for price in prices %}
+                                <tr>
+                                    <td>{{ price.age_group }}</td>
+                                    <td>${{ price.price }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 {% endfor %}
             </div>
-            <div class="text-center mt-4">
-                <a href="/ticket-prices/" class="btn btn-brand btn-lg">View Full Pricing</a>
-            </div>
+            {% endfor %}
         </div>
     </section>
 
+
     <!-- Contact Section -->
-    <section id="contact" class="py-5 bg-light">
+    <section id="contact" class="py-5">
         <div class="container">
             <h2 class="text-center mb-5 fw-bold display-3" style="color: #8a1538;">Contact Us</h2>
-            <p class="text-center lead mb-4">We’d love to hear from you! Reach out to us with questions, feedback, or just to say hello. We’re here to help make your experience unforgettable.</p>
-            <div class="text-center">
-                <a href="/contact/" class="btn btn-brand btn-lg">Get in Touch</a>
+            <p class="text-center lead mb-4">
+                We’d love to hear from you! Share your thoughts, questions, or feedback with us below.
+            </p>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <form method="post" action="">
+                        {% csrf_token %}
+
+                        <!-- Name Field -->
+                        <div class="mb-3">
+                            {{ form.name }}
+                        </div>
+
+                        <!-- Email Field -->
+                        <div class="mb-3">
+                            {{ form.email }}
+                        </div>
+
+                        <!-- Message Field -->
+                        <div class="mb-3">
+                            {{ form.message }}
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-brand btn-lg mt-3">Send Message</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </section>

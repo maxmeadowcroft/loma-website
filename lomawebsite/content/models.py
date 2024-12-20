@@ -1,15 +1,6 @@
 from django.db import models
 
 
-class MoviePoster(models.Model):
-    title = models.CharField(max_length=255)
-    poster = models.ImageField(upload_to='posters/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
-
-
 class BackgroundImage(models.Model):
     title = models.CharField(max_length=255)
     image = models.ImageField(upload_to='backgrounds/')
@@ -64,3 +55,5 @@ class Movie(models.Model):
     dates = models.CharField(max_length=100)
     showtimes = models.TextField()
 
+    def __str__(self):
+        return self.title

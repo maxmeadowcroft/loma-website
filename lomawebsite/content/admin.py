@@ -1,7 +1,6 @@
 from django.contrib import admin
-from .models import MoviePoster, BackgroundImage, ConcessionItem, TicketPrice, Movie
+from .models import BackgroundImage, ConcessionItem, TicketPrice, Movie
 
-admin.site.register(MoviePoster)
 admin.site.register(BackgroundImage)
 admin.site.register(Movie)
 
