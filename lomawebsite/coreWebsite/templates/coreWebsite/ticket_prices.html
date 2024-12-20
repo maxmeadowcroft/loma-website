@@ -1,38 +1,57 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}Ticket Prices{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h1 class="mt-4">Ticket Prices</h1>
-
-    {% for category, showtimes in grouped_ticket_prices.items %}
-    <section class="mt-4">
-        <h2>{{ category|title }}</h2>
-        {% for showtime, prices in showtimes.items %}
-        <h3>{{ showtime|title }}</h3>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Age Group</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for ticket in prices %}
-                <tr>
-                    <td>{{ ticket.age_group }}</td>
-                    <td>${{ ticket.price|floatformat:2 }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% endfor %}
-    </section>
-    {% endfor %}
-
-    <div class="text-center mt-4">
-        <a href="#" class="btn btn-primary">Buy Tickets</a>
+<div class="container-fluid p-0">
+    <!-- Hero Section -->
+    <div class="hero-section text-center text-white py-5"
+        style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('{% static "tickets.jpg" %}') no-repeat center/cover; min-height: 50vh;">
+        <div class="container">
+            <h1 class="display-1 fw-bold" style="font-family: 'Playfair Display', serif;">Ticket Prices</h1>
+            <p class="lead mb-4" style="font-size: 1.5rem;">Affordable prices for everyone in the community.</p>
+        </div>
     </div>
+
+    <!-- Ticket Prices Section -->
+    <section id="ticket-prices" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold display-3" style="color: #8a1538;">Our Pricing</h2>
+
+            {% if ticket_prices %}
+            {% for category, showtimes in ticket_prices.items %}
+            <div class="mb-5">
+                <h3 class="text-center fw-bold display-5" style="color: #8a1538;">{{ category|title }}</h3>
+
+                {% for showtime, prices in showtimes.items %}
+                <div class="mb-3">
+                    <h4 class="text-center fw-bold" style="color: #b02045;">{{ showtime|title }}</h4>
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-center">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Age Group</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for price in prices %}
+                                <tr>
+                                    <td>{{ price.age_group }}</td>
+                                    <td>${{ price.price|floatformat:2 }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+            {% else %}
+            <p class="text-center">No ticket prices available at the moment.</p>
+            {% endif %}
+        </div>
+    </section>
 </div>
 {% endblock %}

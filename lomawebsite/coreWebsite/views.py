@@ -97,11 +97,27 @@ class TicketPricesView(TemplateView):
         context = super().get_context_data(**kwargs)
 
         # Group ticket prices by category and then by showtime
-        grouped_ticket_prices = defaultdict(lambda: defaultdict(list))
-        for ticket in TicketPrice.objects.all().order_by('category', 'showtime', 'age_group'):
-            grouped_ticket_prices[ticket.category][ticket.showtime].append(ticket)
+        ticket_prices = TicketPrice.objects.all()
+        grouped_prices = {}
+        for price in ticket_prices:
+            category = price.category
+            showtime = price.showtime
+            if category not in grouped_prices:
+                grouped_prices[category] = {}
+            if showtime not in grouped_prices[category]:
+                grouped_prices[category][showtime] = []
+            grouped_prices[category][showtime].append({
+                'age_group': price.age_group,
+                'price': price.price,
+            })
 
-        context['grouped_ticket_prices'] = grouped_ticket_prices
+        # Assign grouped ticket prices to context
+        context['ticket_prices'] = grouped_prices
+
+        # Add a static or last background image for consistency
+        background = BackgroundImage.objects.last()
+        context['background_image'] = background.image.url if background else None
+
         return context
 
 
