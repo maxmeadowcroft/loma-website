@@ -83,11 +83,10 @@ class ConcessionsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        concessions = ConcessionItem.objects.all().order_by('category', 'name')
         grouped_concessions = defaultdict(list)
-        for item in concessions:
+        for item in ConcessionItem.objects.all().order_by('category', 'name'):
             grouped_concessions[item.category].append(item)
-        context['grouped_concessions'] = grouped_concessions
+        context['grouped_concessions'] = dict(grouped_concessions)  # Convert to a regular dict
         return context
 
 
