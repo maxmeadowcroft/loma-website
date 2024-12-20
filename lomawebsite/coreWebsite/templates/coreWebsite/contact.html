@@ -3,53 +3,70 @@
 {% block title %}Contact{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h1 class="mt-4">Contact</h1>
-    <section class="py-5">
+<div class="container py-5">
+        <!-- Get in Touch Section -->
+    <section id="contact" class="py-5 my-5">
         <div class="container">
             <h2 class="text-center mb-5 fw-bold display-3" style="color: #8a1538;">Contact Us</h2>
+            <p class="text-center lead mb-4">
+                We’d love to hear from you! Share your thoughts, questions, or feedback with us below.
+            </p>
+
             <div class="row justify-content-center">
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                     <form method="post" action="">
                         {% csrf_token %}
-                        {% crispy form %}
+
+                        <!-- Name Field -->
+                        <div class="mb-3">
+                            {{ form.name }}
+                        </div>
+
+                        <!-- Email Field -->
+                        <div class="mb-3">
+                            {{ form.email }}
+                        </div>
+
+                        <!-- Message Field -->
+                        <div class="mb-3">
+                            {{ form.message }}
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-brand btn-lg mt-3">Send Message</button>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- Theater Information -->
-    <section class="mt-4">
-        <h2>The Loma Theater</h2>
-        <address>
-            107 Manzanares Ave<br>
-            Socorro, New Mexico 87801
-        </address>
-    </section>
-
-    <!-- Contact Details -->
-    <section class="mt-4">
-        <h2>Get in Touch</h2>
-        <p>We'd love to hear from you:</p>
-        <ul class="list-unstyled">
-            <li><strong>Email:</strong> <a href="mailto:lomatheater@gmail.com">lomatheater@gmail.com</a></li>
-            <li><strong>Phone:</strong> <a href="tel:+15758358967">575-835-8967</a></li>
-            <li>
-                <strong>Facebook:</strong>
-                <a href="https://www.facebook.com/LomaTheaterSocorroNM" target="_blank">
-                    www.facebook.com/LomaTheaterSocorroNM
-                </a>
-            </li>
-        </ul>
-    </section>
-
-    <!-- Social Media Icons -->
-    <section class="mt-4">
-        <h3>Follow Us</h3>
-        <a href="https://www.facebook.com/LomaTheaterSocorroNM" target="_blank">
-            <img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="Facebook Icon" style="width: 40px; height: 40px;">
-        </a>
+    <!-- Contact Information and Map -->
+    <section id="contact-info" class="mb-5">
+        <div class="row">
+            <!-- Theater Info -->
+            <div class="col-lg-6 text-center text-lg-start">
+                <h2 class="fw-bold" style="color: #8a1538;">The Loma Theater</h2>
+                <p class="fs-5">
+                    107 Manzanares Ave<br>
+                    Socorro, New Mexico 87801
+                </p>
+                <p class="fs-5">
+                    <strong>Email:</strong> <a href="mailto:lomatheater@gmail.com" class="text-decoration-none">lomatheater@gmail.com</a><br>
+                    <strong>Phone:</strong> <a href="tel:+15758358967" class="text-decoration-none">575-835-8967</a>
+                </p>
+                <p class="fs-5">
+                    <strong>Follow Us:</strong><br>
+                    <a href="https://www.facebook.com/LomaTheaterSocorroNM" target="_blank">
+                        <img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="Facebook Icon" style="width: 40px; height: 40px;">
+                    </a>
+                </p>
+            </div>
+            <!-- Map -->
+            <div class="col-lg-6 text-center">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3305.4632523237087!2d-106.89343948723231!3d34.05763711733098!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8721ca950352b11d%3A0x999310676843b808!2sLoma%20Theater!5e0!3m2!1sen!2sus!4v1734657300813!5m2!1sen!2sus" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
     </section>
 </div>
 {% endblock %}
