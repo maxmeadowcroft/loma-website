@@ -3,74 +3,118 @@
 {% block title %}About Us{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h1 class="mt-4">About the Loma Theater</h1>
+<div class="container-fluid p-0">
+    <!-- Hero Section -->
+    <div class="hero-section text-center text-white py-5"
+        style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('{% static "about-hero.jpg" %}') no-repeat center/cover; min-height: 50vh;">
+        <div class="container">
+            <h1 class="display-3 fw-bold" style="font-family: 'Playfair Display', serif;">About the Loma Theater</h1>
+            <p class="lead mb-0" style="font-size: 1.5rem;">Discover the story behind Socorro’s beloved theater.</p>
+        </div>
+    </div>
 
-    <section class="mt-4">
-        <h2>The Beginning</h2>
-        <p>
-            The Loma Theater opened its doors to Socorro residents in 1937. Located on the town plaza, it was in the center of all that was happening in town. However, 19 years later, in December of 1956, a large fire broke out in an adjacent business and spread to the theater during a showing of <em>"The Day the World Ended."</em> While the fire completely destroyed the theater, over 200 people escaped unscathed.
-        </p>
-    </section>
+    <!-- Content Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold display-4" style="color: #8a1538;">Our Journey</h2>
 
-    <section class="mt-4">
-        <h2>Rebirth and Relocation</h2>
-        <p>
-            After the fire, the Loma Theater was reborn in its current location, a historic building listed on the State Historic Register. Originally constructed as a general store in the early 1900s, the building served as a National Guard armory before being remodeled into a theater in 1959.
-        </p>
-    </section>
-
-    <section class="mt-4">
-        <h2>Unique Features</h2>
-        <p>
-            The original theater featured seating for over 600 people, with special "crying" and "smoking" rooms equipped with drive-in speakers. In 1986, the theater underwent significant renovations that altered its structure and reduced its seating capacity.
-        </p>
-    </section>
-
-    <section class="mt-4">
-        <h2>Recent History</h2>
-        <p>
-            The theater faced challenges, including closures in 2008 and 2014, but was revived in 2017 through a partnership with New Mexico Tech. Modern renovations, including digital and 3D capabilities, brought the theater back to life. Ownership transferred to On the Break Entertainments, LLC, in 2021.
-        </p>
-    </section>
-
-    <section class="mt-4">
-        <h2>Community Impact</h2>
-        <p>
-            Today, the Loma Theater continues to serve the community, showcasing first-run movies in both 2D and 3D formats. It has become a beloved venue where Socorro residents can enjoy the latest films without traveling far.
-        </p>
-    </section>
-
-    <section class="mt-4">
-        <h2>Come Visit Us!</h2>
-        <p>Want to experience the magic of the Loma Theater? We’d love to see you at the movies!</p>
-    </section>
-
-    <section class="mt-4">
-        <h2>In the News</h2>
-        <ul>
-            <li><a href="https://socorro-history.org">Socorro History: The Loma Theater</a></li>
-            <li><a href="#">El Defensor Chieftain - Theater’s Reopening</a></li>
-            <!-- Add more links as needed -->
-        </ul>
-    </section>
-    <section class="mt-4">
-        <h2>FAQs</h2>
-        <div class="accordion" id="faqAccordion">
-            {% for faq in faqs %}
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="heading{{ forloop.counter }}">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
-                        {{ faq.question }}
-                    </button>
-                </h2>
-                <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        {{ faq.answer }}
+            <!-- The Beginning -->
+            <div class="row align-items-center mb-5">
+                <div class="col-md-6">
+                    <h3 class="fw-bold display-6" style="color: #b02045;">The Beginning</h3>
+                    <p>
+                        The Loma Theater opened its doors to Socorro residents in 1937. Located on the town plaza, it was in the center of all that was happening in town. However, 19 years later, in December of 1956, a large fire broke out in an adjacent business and spread to the theater during a showing of <em>"The Day the World Ended."</em> While the fire completely destroyed the theater, over 200 people escaped unscathed.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center">
+                    <div style="width: 100%; max-width: 500px; height: 300px; overflow: hidden; margin: 0 auto; border-radius: 15px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);">
+                        <img src="{% static 'beginning.jpg' %}" alt="The Beginning" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                 </div>
             </div>
-            {% endfor %}
+
+            <!-- Rebirth and Relocation -->
+            <div class="row align-items-center mb-5">
+                <div class="col-md-6 text-center order-md-2">
+                    <div style="width: 100%; max-width: 500px; height: 300px; overflow: hidden; margin: 0 auto; border-radius: 15px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);">
+                        <img src="{% static 'rebirth.jpg' %}" alt="Rebirth and Relocation" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+                <div class="col-md-6 order-md-1">
+                    <h3 class="fw-bold display-6" style="color: #b02045;">Rebirth and Relocation</h3>
+                    <p>
+                        After the fire, the Loma Theater was reborn in its current location, a historic building listed on the State Historic Register. Originally constructed as a general store in the early 1900s, the building served as a National Guard armory before being remodeled into a theater in 1959.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Unique Features -->
+            <div class="row align-items-center mb-5">
+                <div class="col-md-6">
+                    <h3 class="fw-bold display-6" style="color: #b02045;">Unique Features</h3>
+                    <p>
+                        The original theater featured seating for over 600 people, with special "crying" and "smoking" rooms equipped with drive-in speakers. In 1986, the theater underwent significant renovations that altered its structure and reduced its seating capacity.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center">
+                    <div style="width: 100%; max-width: 500px; height: 300px; overflow: hidden; margin: 0 auto; border-radius: 15px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);">
+                        <img src="{% static 'features.jpg' %}" alt="Unique Features" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent History -->
+            <div class="row align-items-center mb-5">
+                <div class="col-md-6 text-center order-md-2">
+                    <div style="width: 100%; max-width: 500px; height: 300px; overflow: hidden; margin: 0 auto; border-radius: 15px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);">
+                        <img src="{% static 'history.jpg' %}" alt="Recent History" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+                <div class="col-md-6 order-md-1">
+                    <h3 class="fw-bold display-6" style="color: #b02045;">Recent History</h3>
+                    <p>
+                        The theater faced challenges, including closures in 2008 and 2014, but was revived in 2017 through a partnership with New Mexico Tech. Modern renovations, including digital and 3D capabilities, brought the theater back to life. Ownership transferred to On the Break Entertainments, LLC, in 2021.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Community Impact -->
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h3 class="fw-bold display-6" style="color: #b02045;">Community Impact</h3>
+                    <p>
+                        Today, the Loma Theater continues to serve the community, showcasing first-run movies in both 2D and 3D formats. It has become a beloved venue where Socorro residents can enjoy the latest films without traveling far.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center">
+                    <div style="width: 100%; max-width: 500px; height: 300px; overflow: hidden; margin: 0 auto; border-radius: 15px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);">
+                        <img src="{% static 'community.jpg' %}" alt="Community Impact" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQs Section test -->
+    <section class="py-5" style="background: linear-gradient(to bottom, #8a1538, #b02045); color: #fff;">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold display-4">FAQs</h2>
+            <div class="accordion" id="faqAccordion">
+                {% for faq in faqs %}
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
+                            {{ faq.question }}
+                        </button>
+                    </h2>
+                    <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            {{ faq.answer }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </section>
 </div>
